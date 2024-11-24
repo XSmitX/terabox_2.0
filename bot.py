@@ -1,0 +1,113 @@
+from pyrogram import Client , filters
+from pyrogram.types import InlineKeyboardMarkup as ikm , InlineKeyboardButton as ikb
+import random 
+import pymongo
+import pyshorteners
+from pyrogram.enums import ChatMemberStatus
+
+
+stickers = ['CAACAgIAAxkBAAEVZQVnQeBXL7vxQRzEvPhwCHNdAudu6gAC0UQAAnf8YEitLhXjRxtXITYE','CAACAgIAAxkBAAEVZP5nQeAr0iGTxNEzDOd1J026NV2-bgACEj4AAhqDIEnivD3_9OafqzYE',]
+bot = Client("mybot",
+             bot_token="7267202889:AAFamTieP6R9xRQ7A3BPadSW-Q3jaiVuWKY",
+             api_id=1712043,
+             api_hash="965c994b615e2644670ea106fd31daaf"
+             )
+
+admin_id = [6121699672]
+channel_username = '@iStreamFlix_channel'
+def check_joined():
+    async def func(flt, bot, message):
+        join_msg = f"**To use this bot, Please join our channel.\nJoin From The Link Below 👇**"
+        user_id = message.from_user.id
+        chat_id = message.chat.id
+        try:
+            member_info = await bot.get_chat_member(channel_username, user_id)
+            if member_info.status in (ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.MEMBER):
+                return True
+            else:
+                await bot.send_message(chat_id, join_msg, reply_markup=ikm([[ikb("✅ Join Channel", url="https://t.me/iStreamFlix_channel")]]))
+                return False
+        except Exception:
+            await bot.send_message(chat_id, join_msg, reply_markup=ikm([[ikb("✅ Join Channel", url="https://t.me/iStreamFlix_channel")]]))
+            return False
+
+    return filters.create(func)
+##########################################################################################################################################
+MONGODB_URI = "mongodb+srv://smit:smit@cluster0.pjccvjk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+client = pymongo.MongoClient(MONGODB_URI)
+db = client['terabox2_0']  # Your database name
+users_collection = db['users']
+##########################################################################################################################################
+
+def shorten_url(long_url):
+    s = pyshorteners.Shortener()
+    short_url = s.tinyurl.short(long_url)
+    return short_url
+def shorten_url2(long_url):
+    s = pyshorteners.Shortener()
+    short_url = s.isgd.short(long_url)
+    return short_url
+def url_create(user_input):
+    t1 = user_input.split('/')[-1]
+    if t1[0].isdigit():
+        t1 = t1[1:]
+    t2 = f'https://www.1024terabox.com/sharing/embed?surl={t1}&autoplay=true&mute=false'
+    return t2
+
+##########################################################################################################################################
+def store_user_info(user_id, username, first_name):
+    # Check if the user already exists
+    if not users_collection.find_one({"user_id": user_id}):
+        user_data = {
+            "user_id": user_id,
+            "username": username,
+            "first_name": first_name
+        }
+        # Insert user data into MongoDB
+        users_collection.insert_one(user_data)
+
+@bot.on_message(filters.command("start") & check_joined())
+async def start(client , message):
+    user_id = message.from_user.id
+    username = message.from_user.username
+    first_name = message.from_user.first_name
+    store_user_info(user_id, username, first_name)
+    await message.reply_sticker("CAACAgQAAxkBAAEVZtZnQsjj3_Hmwg91m57GXua6E1bqfwACqgsAAsDqEFDQ3jt1DpvhoDYE")
+    await message.reply_text("Hello! I am a Streaming Link provider bot")
+
+async def fetch_all_users():
+    users = users_collection.find()
+    return [user['user_id'] for user in users]
+@bot.on_message(filters.command("users"))
+async def users(client , message):  
+    if message.from_user.id in admin_id:
+        users = await fetch_all_users()
+        await message.reply_text(f"<b><i>Total users: {len(users)}</i></b>")
+    else:
+        await message.reply_text("You are not authorized to use this command.")
+
+@bot.on_message(filters.text & filters.private & check_joined())
+async def echo(bot, message):
+    user_id = message.from_user.id
+    username = message.from_user.username
+    first_name = message.from_user.first_name
+    store_user_info(user_id, username, first_name)
+    msg = message.text
+    print(msg)
+    if msg.startswith('https://'):
+        link = url_create(msg)
+        try:
+            tera_link = shorten_url(link) 
+        except:
+            tera_link = shorten_url2(link)
+        sticker = random.choice(stickers)
+        await message.reply_sticker(sticker)
+        reply_markup = ikm([[ikb(text="Watch Online",url=tera_link)]])
+        await message.reply_text("<b><i>Here's Your Video !!! Watch it Online....\n\n⬇️ये रहा आपका वीडियो!!! इसे ऑनलाइन देखें....⬇️</b></i>",reply_markup = reply_markup) 
+        await bot.send_message(-1001855899992, f"<b><i>Link: {msg} \nUser: {message.from_user.first_name}\nUserName: @{message.from_user.username}</i></b>")
+    else:
+        await message.reply_text('No Link Found ....')
+
+
+
+bot.run()
