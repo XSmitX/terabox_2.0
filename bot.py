@@ -14,7 +14,7 @@ bot = Client("mybot",
              )
 
 admin_id = [6121699672]
-channel_username = '@iStreamFlix_channel'
+channel_username = '@teraupdate'
 def check_joined():
     async def func(flt, bot, message):
         join_msg = f"**To use this bot, Please join our channel.\nJoin From The Link Below 👇**"
@@ -25,10 +25,10 @@ def check_joined():
             if member_info.status in (ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.MEMBER):
                 return True
             else:
-                await bot.send_message(chat_id, join_msg, reply_markup=ikm([[ikb("✅ Join Channel", url="https://t.me/iStreamFlix_channel")]]))
+                await bot.send_message(chat_id, join_msg, reply_markup=ikm([[ikb("✅ Join Channel", url="https://t.me/teraupdate")]]))
                 return False
         except Exception:
-            await bot.send_message(chat_id, join_msg, reply_markup=ikm([[ikb("✅ Join Channel", url="https://t.me/iStreamFlix_channel")]]))
+            await bot.send_message(chat_id, join_msg, reply_markup=ikm([[ikb("✅ Join Channel", url="https://t.me/teraupdate")]]))
             return False
 
     return filters.create(func)
