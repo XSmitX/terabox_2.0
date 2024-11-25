@@ -89,6 +89,9 @@ async def users(client , message):
 @bot.on_message(filters.text & filters.private & check_joined())
 async def echo(bot, message):
     user_id = message.from_user.id
+    sticker = random.choice(stickers)
+    w1 = await message.reply_sticker(sticker)
+
     username = message.from_user.username
     first_name = message.from_user.first_name
     store_user_info(user_id, username, first_name)
@@ -100,14 +103,24 @@ async def echo(bot, message):
             tera_link = shorten_url(link) 
         except:
             tera_link = shorten_url2(link)
-        sticker = random.choice(stickers)
-        await message.reply_sticker(sticker)
+        
+        await w1.delete()
         reply_markup = ikm([[ikb(text="Watch Online",url=tera_link)]])
-        await message.reply_text("<b><i>Here's Your Video !!! Watch it Online....\n\n⬇️ये रहा आपका वीडियो!!! इसे ऑनलाइन देखें....⬇️</b></i>",reply_markup = reply_markup) 
+        #await message.reply_text(
+        #"<b><i>Here's Your Video !!! Watch it Online....\n\n⬇️ये रहा आपका वीडियो!!! इसे ऑनलाइन देखें....⬇️</b></i>",
+        #        reply_markup=reply_markup,
+        #        reply_to_message_id=message.id # This ensures the bot replies to the user's message
+        #    )
+        await message.reply_text(
+    "\t\t<i><b>-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷</b></i>",  # A small non-intrusive character
+    reply_markup=reply_markup,  # The button markup
+    reply_to_message_id=message.id  # Replying to the user's original message
+)
+
         await bot.send_message(-1001855899992, f"<b><i>Link: {msg} \nUser: {message.from_user.first_name}\nUserName: @{message.from_user.username}</i></b>")
     else:
+        await w1.delete()
         await message.reply_text('No Link Found ....')
-
 
 
 bot.run()
