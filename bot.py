@@ -13,8 +13,16 @@ bot = Client("mybot",
              api_hash="965c994b615e2644670ea106fd31daaf"
              )
 
+
 admin_id = [6121699672]
-channel_username = '@teraupdate'
+channel_username = '@iStreamFlix_channel'
+
+global under_maintainance
+under_maintainance = False
+global broadcast_on
+broadcast_on = False
+
+
 def check_joined():
     async def func(flt, bot, message):
         join_msg = f"**To use this bot, Please join our channel.\nJoin From The Link Below 👇**"
@@ -25,17 +33,17 @@ def check_joined():
             if member_info.status in (ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.MEMBER):
                 return True
             else:
-                await bot.send_message(chat_id, join_msg, reply_markup=ikm([[ikb("✅ Join Channel", url="https://t.me/teraupdate")]]))
+                await bot.send_message(chat_id, join_msg, reply_markup=ikm([[ikb("✅ Join Channel", url="https://t.me/iStreamFlix_channel")]]))
                 return False
         except Exception:
-            await bot.send_message(chat_id, join_msg, reply_markup=ikm([[ikb("✅ Join Channel", url="https://t.me/teraupdate")]]))
+            await bot.send_message(chat_id, join_msg, reply_markup=ikm([[ikb("✅ Join Channel", url="https://t.me/iStreamFlix_channel")]]))
             return False
 
     return filters.create(func)
 ##########################################################################################################################################
 MONGODB_URI = "mongodb+srv://smit:smit@cluster0.pjccvjk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 client = pymongo.MongoClient(MONGODB_URI)
-db = client['terabox2_0']  # Your database name
+db = client['terabox2_0']
 users_collection = db['users']
 ##########################################################################################################################################
 
@@ -86,12 +94,57 @@ async def users(client , message):
     else:
         await message.reply_text("You are not authorized to use this command.")
 
+@bot.on_message(filters.command("broadcast"))
+async def broadcast(client, message):
+    global broadcast_on
+    if message.from_user.id in admin_id:
+        if message.reply_to_message:
+            br = await message.reply_text("<b>Broadcasting...</b>")
+            broadcast_on = True
+            text = message.reply_to_message.text
+            print(text)
+            users = await fetch_all_users()
+            broadcast_count = 0
+            errors_count = 0
+            for user_id in users:
+                try:
+                    await bot.send_message(user_id, text)
+                    broadcast_count += 1
+                except Exception as e:
+                    print(e)
+                    errors_count += 1
+            await br.edit_text(f"<b>Broadcast completed.\nSent to {broadcast_count} users. Failed to send to {errors_count} users.</b>")
+            broadcast_on = False
+        else:
+            await message.reply_text("Reply to a message to broadcast it to all users.")
+    else:
+        await message.reply_text("Only Admins can use this command...")
+@bot.on_message(filters.command('stop') | filters.command('activate')  )
+async def stop(client, message):
+    if message.from_user.id in admin_id:
+        global under_maintainance
+        if message.text == '/stop':
+            
+            under_maintainance = True
+            await message.reply_text('Bot Set to Maintainance Mode...</code>')
+        elif message.text == '/activate':
+            under_maintainance = False
+            await message.reply_text('Bot Set to Active Mode...</code>')
+    else:
+        await message.reply_text('Only Admins can use this command...')
+
 @bot.on_message(filters.text & filters.private & check_joined())
 async def echo(bot, message):
+    if under_maintainance:
+        await message.reply_text("<b><i>Bot is under maintainance..</i></b>")
+        return
+    if broadcast_on:
+        await message.reply_text("<b><i>Bot is under broadcast..</i></b>")
+        return
+    
     user_id = message.from_user.id
     sticker = random.choice(stickers)
     w1 = await message.reply_sticker(sticker)
-
     username = message.from_user.username
     first_name = message.from_user.first_name
     store_user_info(user_id, username, first_name)
