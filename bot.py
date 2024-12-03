@@ -81,7 +81,7 @@ async def start(client , message):
     first_name = message.from_user.first_name
     store_user_info(user_id, username, first_name)
     await message.reply_sticker("CAACAgQAAxkBAAEVZtZnQsjj3_Hmwg91m57GXua6E1bqfwACqgsAAsDqEFDQ3jt1DpvhoDYE")
-    await message.reply_text("Hello! I am a Streaming Link provider bot")
+    await message.reply_text("Hello! I am a Streaming Link provider bot for T E R A B O X")
 
 async def fetch_all_users():
     users = users_collection.find()
