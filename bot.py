@@ -167,7 +167,7 @@ async def echo(bot, message):
         await message.reply_text(
     "\t\t<i><b>-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷</b></i>",  # A small non-intrusive character
     reply_markup=reply_markup,  # The button markup
-    reply_to_message_id=message.id  # Replying to the user's original message
+    reply_to_message_id=message.id  # Replying to the user's original messae
 )
 
         await bot.send_message(-1002380492315, tera_link)
