@@ -15,7 +15,7 @@ bot = Client("mybot",
 
 
 admin_id = [6121699672]
-channel_username = '@teraupdate'
+channel_username = '@XedBots'
 
 global under_maintainance
 under_maintainance = False
