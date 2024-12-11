@@ -138,10 +138,8 @@ async def echo(bot, message):
     if under_maintainance:
         await message.reply_text("<b><i>Bot is under maintainance..</i></b>")
         return
-    if broadcast_on:
-        await message.reply_text("<b><i>Bot is under broadcast..</i></b>")
-        return
     
+   
     user_id = message.from_user.id
     sticker = random.choice(stickers)
     w1 = await message.reply_sticker(sticker)
