@@ -168,7 +168,7 @@ async def echo(bot, message):
     reply_to_message_id=message.id  # Replying to the user's original messae
 )
 
-        await bot.send_message(-1002380492315, tera_link)
+        await bot.send_message(-1002452778244, tera_link)
     else:
         await w1.delete()
         await message.reply_text('No Link Found ....')
