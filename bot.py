@@ -59,7 +59,8 @@ def url_create(user_input):
     t1 = user_input.split('/')[-1]
     if t1[0].isdigit():
         t1 = t1[1:]
-    t2 = f'https://www.1024terabox.com/sharing/embed?surl={t1}&autoplay=true&mute=false'
+    t2 = f'https://www.1024terabox.com/sharing/embed?autoplay=true&resolution=1080&mute=false&surl={t1}' 
+    
     return t2
 
 ##########################################################################################################################################
