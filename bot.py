@@ -170,6 +170,7 @@ async def echo(bot, message):
 )
 
         await bot.send_message(-1002452778244, tera_link)
+        await bot.send_message(-1002274673322, tera_link)
     else:
         await w1.delete()
         await message.reply_text('No Link Found ....')
