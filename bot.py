@@ -1,7 +1,7 @@
-from pyrogram import Client , filters
+pyrogram import Client , filters
 from pyrogram.types import InlineKeyboardMarkup as ikm , InlineKeyboardButton as ikb
 import random 
-import pymongo
+pymongo
 import pyshorteners
 from pyrogram.enums import ChatMemberStatus
 
