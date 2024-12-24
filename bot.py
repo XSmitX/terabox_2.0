@@ -1,14 +1,14 @@
-pyrogram import Client , filters
+from pyrogram import Client , filters
 from pyrogram.types import InlineKeyboardMarkup as ikm , InlineKeyboardButton as ikb
 import random 
-pymongo
+import pymongo
 import pyshorteners
 from pyrogram.enums import ChatMemberStatus
 
 
 stickers = ['CAACAgIAAxkBAAEVZQVnQeBXL7vxQRzEvPhwCHNdAudu6gAC0UQAAnf8YEitLhXjRxtXITYE','CAACAgIAAxkBAAEVZP5nQeAr0iGTxNEzDOd1J026NV2-bgACEj4AAhqDIEnivD3_9OafqzYE',]
 bot = Client("mybot",
-             bot_token="7267202889:AAFamTieP6R9xRQ7A3BPadSW-Q3jaiVuWKY",
+             bot_token="7902237942:AAFCcYdQDpy1YcI6Ya_W85kEUaEKA3x4JU8",
              api_id=1712043,
              api_hash="965c994b615e2644670ea106fd31daaf"
              )
@@ -43,7 +43,7 @@ def check_joined():
 ##########################################################################################################################################
 MONGODB_URI = "mongodb+srv://smit:smit@cluster0.pjccvjk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 client = pymongo.MongoClient(MONGODB_URI)
-db = client['terabox2_0']
+db = client['terabox2']
 users_collection = db['users']
 ##########################################################################################################################################
 
@@ -169,8 +169,8 @@ async def echo(bot, message):
     reply_to_message_id=message.id  # Replying to the user's original messae
 )
 
-        await bot.send_message(-1002452778244, tera_link)
-        await bot.send_message(-1002274673322, tera_link)
+        await bot.send_message(-1002451642661, tera_link)
+        
     else:
         await w1.delete()
         await message.reply_text('No Link Found ....')
