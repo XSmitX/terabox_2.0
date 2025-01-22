@@ -14,6 +14,8 @@ bot = Client("mybot",
              )
 
 
+
+
 admin_id = [6121699672]
 channel_username = '@XedBots'
 
@@ -142,7 +144,7 @@ async def echo(bot, message):
     
    
     user_id = message.from_user.id
-    sticker = random.choice(stickers)
+    sticker = 'CAACAgUAAxkBAAEV_8RnkPiFEzAKWVUgzWeNcLTOWjsBkAACpwgAAtu6GFQ4oUoIL-_BgzYE'
     w1 = await message.reply_sticker(sticker)
     username = message.from_user.username
     first_name = message.from_user.first_name
@@ -164,7 +166,7 @@ async def echo(bot, message):
         #        reply_to_message_id=message.id # This ensures the bot replies to the user's message
         #    )
         await message.reply_text(
-    "\t\t<i><b>-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷-̷</b></i>",  # A small non-intrusive character
+    "<b>Here's Your Video !!! Watch it Online....\n\n⬇️ये रहा आपका वीडियो!!! इसे ऑनलाइन देखें....⬇️</b>",  # A small non-intrusive character
     reply_markup=reply_markup,  # The button markup
     reply_to_message_id=message.id  # Replying to the user's original messae
 )
@@ -177,3 +179,4 @@ async def echo(bot, message):
 
 
 bot.run()
+
