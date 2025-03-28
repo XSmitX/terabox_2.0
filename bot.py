@@ -100,7 +100,7 @@ def store_user_info(user_id, username, first_name):
         users_collection.insert_one(user_data)
 
 # Start command handler
-@bot.on_message(filters.command("start") & check_joined())
+@bot.on_message(filters.command("start"))
 async def start(client, message):
     """Handle the /start command"""
     user_id = message.from_user.id
@@ -172,8 +172,7 @@ async def maintenance_toggle(client, message):
 # Main message handler
 @bot.on_message(filters.text & filters.private & check_joined())
 async def process_link(bot, message):
-    if message.text.startswith('/start'):
-        return
+    
     """Process user messages containing links"""
     # Check if bot is in maintenance mode
     if under_maintainance:
