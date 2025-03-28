@@ -172,6 +172,8 @@ async def maintenance_toggle(client, message):
 # Main message handler
 @bot.on_message(filters.text & filters.private & check_joined())
 async def process_link(bot, message):
+    if message.text.startswith('/start'):
+        return
     """Process user messages containing links"""
     # Check if bot is in maintenance mode
     if under_maintainance:
